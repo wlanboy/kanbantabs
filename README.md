@@ -1,4 +1,5 @@
 # kanbantabs
+golang based console kanban board
 
 # build
 * go get -d -v
