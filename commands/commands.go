@@ -45,6 +45,8 @@ func ExecuteOn(storage *store.Storage, object string, verb string, param string)
 			} else {
 				fmt.Print("input to short\n")
 			}
+		case "move":
+			storage.MoveCard(param)
 		case "delete":
 			storage.DeleteCard(param)
 		}
