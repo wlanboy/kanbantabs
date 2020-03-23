@@ -27,6 +27,8 @@ func ExecuteOn(storage *store.Storage, object string, verb string, param string)
 			} else {
 				fmt.Print("input to short\n")
 			}
+		case "delete":
+			storage.DeleteBoard(param)
 		}
 
 	case "card":
@@ -43,6 +45,8 @@ func ExecuteOn(storage *store.Storage, object string, verb string, param string)
 			} else {
 				fmt.Print("input to short\n")
 			}
+		case "delete":
+			storage.DeleteCard(param)
 		}
 	}
 
