@@ -1,5 +1,14 @@
 # kanbantabs
 golang based console kanban board
+```
+ ./kanbantabs 
+------------------------------------------------------------------------------
+dev                      |test                     |prod                     |
+------------------------------------------------------------------------------
+[1] kanbantabs           |[3] ranger               |[4] azure                |
+[2] hazelcast            |                         |[6] gc                   |
+[5] chromebook           |                         |                         |
+```
 
 # build
 * go get -d -v
