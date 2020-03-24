@@ -1,3 +1,5 @@
+![Go](https://github.com/wlanboy/kanbantabs/workflows/Go/badge.svg?branch=master)
+
 # kanbantabs
 golang based console kanban board
 ```
