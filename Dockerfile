@@ -1,6 +1,6 @@
 FROM busybox:1.31
 
-COPY ./kanbantabs /home/
-EXPOSE 8000
+ARG BIN_FILE
+ADD ${BIN_FILE} /home/kanbantabs
 
-CMD ["/home/kanbantabs"]
+ENTRYPOINT ["/home/kanbantabs"]
