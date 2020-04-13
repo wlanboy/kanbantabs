@@ -23,6 +23,12 @@ dev                      |test                     |prod                     |
 # install
 * go install
 
+# docker build
+docker build -t kanbantabs:latest . --build-arg BIN_FILE=./kanbantabs
+
+# docker run
+docker run -it --name kanban wlanboy/kanbantabs
+
 # usage
 * ./kanbantabs (show kanban board)
 * ./kanbantabs lane add (add new lane, you will be asked for it's name)
