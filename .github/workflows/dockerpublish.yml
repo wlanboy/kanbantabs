@@ -36,7 +36,8 @@ jobs:
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: wlanboy/kanbantabs
-        dockerfile: DockerfileGithub
+        dockerfile: Dockerfile
+        workdir: /home/runner/work/kanbantabs/kanbantabs
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         tags: "latest"
