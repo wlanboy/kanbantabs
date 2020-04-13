@@ -1,6 +1,6 @@
 FROM busybox:1.31
 
 ARG BIN_FILE
-ADD ${BIN_FILE} /home/kanbantabs
+ADD ${BIN_FILE} kanbantabs
 
-ENTRYPOINT ["/home/kanbantabs"]
+ENTRYPOINT ["/kanbantabs"]
