@@ -35,7 +35,7 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
       env:
-        JAR_FILE: ./kanbantabs
+        BIN_FILE: ./kanbantabs
       with:
         name: wlanboy/kanbantabs
         dockerfile: Dockerfile
