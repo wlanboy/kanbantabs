@@ -34,11 +34,11 @@ jobs:
     - uses: actions/checkout@master
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
+      env:
+        JAR_FILE: ./kanbantabs
       with:
         name: wlanboy/kanbantabs
         dockerfile: Dockerfile
-        workdir: /home/runner/work/kanbantabs
-        context: /home/runner/work/kanbantabs
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         tags: "latest"
