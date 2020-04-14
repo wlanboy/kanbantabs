@@ -12,8 +12,14 @@ import (
 func (kanban *Kanban) Initialize() {
 	godotenv.Load()
 
-	usr, _ := user.Current()
-	kanban.Filename = filepath.Join(usr.HomeDir, ".kanbantabs")
+	homedir := ""
+	usr, err := user.Current()
+	if err != nil {
+		homedir = "/home/kanban"
+	} else {
+		homedir = usr.HomeDir
+	}
+	kanban.Filename = filepath.Join(homedir, ".kanbantabs")
 
 	var storage store.Storage = store.Storage{}
 	storage.Filename = kanban.Filename
