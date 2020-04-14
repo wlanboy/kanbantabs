@@ -9,7 +9,7 @@ import (
 func (kanban *Kanban) Initialize() {
 	godotenv.Load()
 
-	kanban.Filename = "./.kanbantabs"
+	kanban.Filename = "~/.kanbantabs"
 
 	var storage store.Storage = store.Storage{}
 	storage.Filename = kanban.Filename
