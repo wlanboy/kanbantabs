@@ -2,6 +2,7 @@ package store
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 
@@ -18,7 +19,10 @@ type Storage struct {
 func (storage *Storage) Load() {
 	var workplace model.Workplace = model.Workplace{}
 
-	info, _ := os.Stat(storage.Filename)
+	info, err := os.Stat(storage.Filename)
+	if err != nil {
+		fmt.Println(err)
+	}
 	if info != nil {
 		file, _ := ioutil.ReadFile(storage.Filename)
 		json.Unmarshal(file, &workplace)
