@@ -11,7 +11,11 @@
             "mode": "auto",
             "program": "${fileDirname}",
             "env": {},
-            "args": [] //"card","add","1"
+            "args": [
+                "card",
+                "delete",
+                "2"
+            ] //"card","add","1"
         }
     ]
 }
