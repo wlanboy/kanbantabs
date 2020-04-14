@@ -30,7 +30,9 @@ CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -v .
 docker build -t kanbantabs:latest . --build-arg BIN_FILE=./kanbantabs
 
 # docker run
-docker run -it --name kanban wlanboy/kanbantabs
+docker run -it --rm -v /yourlocalstorage:/home/kanban kanbantabs
+docker run -it --rm -v /yourlocalstorage:/home/kanban kanbantabs lane add
+docker run -it --rm -v /yourlocalstorage:/home/kanban kanbantabs card add 1
 
 # usage
 * ./kanbantabs (show kanban board)
