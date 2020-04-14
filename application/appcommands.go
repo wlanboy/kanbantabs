@@ -41,7 +41,11 @@ func showHelp() {
 }
 
 func showUser() {
-	currentuser, _ := user.Current()
-	fmt.Println(currentuser.Name)
-	fmt.Println(currentuser.HomeDir)
+	currentuser, err := user.Current()
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(currentuser.Name)
+		fmt.Println(currentuser.HomeDir)
+	}
 }
