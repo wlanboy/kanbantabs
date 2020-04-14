@@ -23,6 +23,9 @@ dev                      |test                     |prod                     |
 # install
 * go install
 
+# go lang build for docker
+CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -v .
+
 # docker build
 docker build -t kanbantabs:latest . --build-arg BIN_FILE=./kanbantabs
 
