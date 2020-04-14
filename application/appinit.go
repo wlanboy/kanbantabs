@@ -1,6 +1,9 @@
 package application
 
 import (
+	"os/user"
+	"path/filepath"
+
 	store "../store"
 	"github.com/joho/godotenv"
 )
@@ -9,7 +12,8 @@ import (
 func (kanban *Kanban) Initialize() {
 	godotenv.Load()
 
-	kanban.Filename = "~/.kanbantabs"
+	usr, _ := user.Current()
+	kanban.Filename = filepath.Join(usr.HomeDir, ".kanbantabs")
 
 	var storage store.Storage = store.Storage{}
 	storage.Filename = kanban.Filename
