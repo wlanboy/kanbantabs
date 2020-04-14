@@ -1,4 +1,4 @@
-![Go](https://github.com/wlanboy/kanbantabs/workflows/Go/badge.svg?branch=master)
+![Go](https://github.com/wlanboy/kanbantabs/workflows/Go/badge.svg?branch=master) ![Docker build and publish image](https://github.com/wlanboy/kanbantabs/workflows/Docker%20build%20and%20publish%20image/badge.svg)
 
 # kanbantabs
 golang based console kanban board
