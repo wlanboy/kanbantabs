@@ -29,15 +29,19 @@ CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -v .
 # docker build
 docker build -t kanbantabs:latest . --build-arg BIN_FILE=./kanbantabs
 
-# docker run
-- docker run -it --rm -v /yourlocalstorage:/home/kanban wlanboy/kanbantabs
-- docker run -it --rm -v /yourlocalstorage:/home/kanban wlanboy/kanbantabs lane add
-- docker run -it --rm -v /yourlocalstorage:/home/kanban wlanboy/kanbantabs card add 1
+# usage with docker
+- alias kanban="docker run -it --rm -v /yourlocalstorage:/home/kanban wlanboy/kanbantabs"
+- kanban
+- kanban lane add
+- kanban lane add
+- kanban card add
+- kanban card move 1
 
-# usage
+# usage with binary
 * ./kanbantabs (show kanban board)
 * ./kanbantabs lane add (add new lane, you will be asked for it's name)
 * ./kanbantabs lane delete 1 (delete first lane)
-* ./kanbantabs card add 1 (add a new card to the first lane, you will be asked for it's name)
+* ./kanbantabs card add (add a new card to the first lane, you will be asked for it's name)
+* ./kanbantabs card add 2 (add a new card to the second lane, you will be asked for it's name)
 * ./kanbantabs card move 8 (move card with number 8 to the next lane - will disappear after last lane) 
 * ./kanbantabs card delete 8 (delete card with number 8) 
