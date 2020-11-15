@@ -40,6 +40,10 @@ func ExecuteOn(storage *store.Storage, object string, verb string, param string)
 				card.ID = storage.Workplace.NextID
 				card.Name = name
 
+				if len(param) == 0 {
+					param = "1"
+				}
+
 				storage.Workplace.NextID++
 				storage.AddCard(param, card)
 			} else {
