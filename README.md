@@ -24,7 +24,12 @@ dev                      |test                     |prod                     |
 * go install
 
 # go lang build for docker
-CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -v .
+* CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -v .
+
+# go lang build for other archs
+* GOOS=linux GOARCH=386 go build (386 needed for busybox)
+* GOOS=linux GOARCH=arm GOARM=6 go build (Raspberry Pi build)
+* GOOS=linux GOARCH=arm64 go build (Odroid C2 build)
 
 # docker build
 docker build -t kanbantabs:latest . --build-arg BIN_FILE=./kanbantabs
