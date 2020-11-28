@@ -34,6 +34,12 @@ dev                      |test                     |prod                     |
 # docker build
 docker build -t kanbantabs:latest . --build-arg BIN_FILE=./kanbantabs
 
+# image size
+* 777.72 KB (!)
+
+# docker hub
+* https://hub.docker.com/r/wlanboy/kanbantabs
+
 # usage with docker
 - alias kanban="docker run -it --rm -v /yourlocalstorage:/home/kanban wlanboy/kanbantabs"
 - kanban
