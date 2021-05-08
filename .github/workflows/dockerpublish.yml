@@ -31,14 +31,13 @@ jobs:
     - name: Build
       run: CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -v .
 
-    - uses: actions/checkout@master
     - name: Publish to Registry
-      uses: elgohr/Publish-Docker-Github-Action@master
       env:
-        BIN_FILE: ./kanbantabs
-      with:
-        name: wlanboy/kanbantabs
-        dockerfile: Dockerfile
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        tags: "latest"
+        DOCKER_USER: ${{secrets.DOCKER_USERNAME}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+    - name: Build the Docker image
+      run: docker build -t wlanboy/kanbantabs:latest . --build-arg BIN_FILE=./kanbantabs
+    - name: Docker Push
+      run: docker push wlanboy/kanbantabs:latest
