@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/user"
 
-	comms "../commands"
+	comms "github.com/wlanboy/kanbantabs/v2/commands"
 )
 
 /*RunCommands for Kanban*/

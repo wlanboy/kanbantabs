@@ -6,8 +6,8 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	model "../model"
-	store "../store"
+	model "github.com/wlanboy/kanbantabs/v2/model"
+	store "github.com/wlanboy/kanbantabs/v2/store"
 )
 
 /*Show for Kanban*/

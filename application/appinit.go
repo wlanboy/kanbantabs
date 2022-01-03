@@ -4,8 +4,8 @@ import (
 	"os/user"
 	"path/filepath"
 
-	store "../store"
 	"github.com/joho/godotenv"
+	store "github.com/wlanboy/kanbantabs/v2/store"
 )
 
 /*Initialize configuration*/

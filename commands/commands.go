@@ -6,9 +6,9 @@ import (
 	"os"
 	"strings"
 
-	model "../model"
-	store "../store"
 	uuid "github.com/satori/go.uuid"
+	model "github.com/wlanboy/kanbantabs/v2/model"
+	store "github.com/wlanboy/kanbantabs/v2/store"
 )
 
 /*ExecuteOn for Kanban*/
@@ -20,7 +20,7 @@ func ExecuteOn(storage *store.Storage, object string, verb string, param string)
 			name := askQuestions("board")
 			if len(name) > 2 {
 				var board model.Board = model.Board{}
-				uid, _ := uuid.NewV4()
+				uid := uuid.NewV4()
 				board.UUID = uid.String()
 				board.Name = name
 				storage.AddBoard(board)

@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	model "../model"
+	model "github.com/wlanboy/kanbantabs/v2/model"
 )
 
 /*Storage containing everything*/

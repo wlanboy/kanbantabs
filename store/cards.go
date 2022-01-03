@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	model "../model"
+	model "github.com/wlanboy/kanbantabs/v2/model"
 )
 
 /*AddCard to board of Workplace*/

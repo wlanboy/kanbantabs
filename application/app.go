@@ -1,7 +1,7 @@
 package application
 
 import (
-	store "../store"
+	store "github.com/wlanboy/kanbantabs/v2/store"
 )
 
 /*Kanban containing workplace and storage*/

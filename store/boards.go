@@ -3,7 +3,7 @@ package store
 import (
 	"strconv"
 
-	model "../model"
+	model "github.com/wlanboy/kanbantabs/v2/model"
 )
 
 /*AddBoard to Workplace*/

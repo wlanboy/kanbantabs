@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	app "./application"
+	app "github.com/wlanboy/kanbantabs/v2/application"
 )
 
 func main() {
