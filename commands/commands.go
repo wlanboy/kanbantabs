@@ -20,7 +20,12 @@ func ExecuteOn(storage *store.Storage, object string, verb string, param string)
 			name := askQuestions("board")
 			if len(name) > 2 {
 				var board model.Board = model.Board{}
-				uid := uuid.NewV4()
+				uid, err := uuid.NewV4()
+				if err != nil {
+					fmt.Printf("uuid.NewV4 went wrong: %s", err)
+				} else {
+					board.UUID = uid.String()
+				}
 				board.UUID = uid.String()
 				board.Name = name
 				storage.AddBoard(board)
