@@ -13,7 +13,7 @@ dev                      |test                     |prod                     |
 ```
 
 # build
-* go get -d -v
+* go get -v
 * go clean
 * go build
 
