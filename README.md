@@ -1,8 +1,10 @@
 ![Go](https://github.com/wlanboy/kanbantabs/workflows/Go/badge.svg?branch=master) ![Docker build and publish image](https://github.com/wlanboy/kanbantabs/workflows/Docker%20build%20and%20publish%20image/badge.svg)
 
 # kanbantabs
-golang based console kanban board
-```
+golang based console kanban board with local storage
+
+Exmaple:
+```bash
  ./kanbantabs 
 ------------------------------------------------------------------------------
 dev                      |test                     |prod                     |
@@ -12,35 +14,32 @@ dev                      |test                     |prod                     |
 [5] chromebook           |                         |                         |
 ```
 
-# build
+## build
 * go get -v
 * go clean
 * go build
 
-# run
+## run
 * go run main.go
 
-# install
+## install
 * go install
 
-# go lang build for docker
+## go lang build for docker
 * CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -v .
 
-# go lang build for other archs
+## go lang build for other archs
 * GOOS=linux GOARCH=386 go build (386 needed for busybox)
 * GOOS=linux GOARCH=arm GOARM=6 go build (Raspberry Pi build)
 * GOOS=linux GOARCH=arm64 go build (Odroid C2 build)
 
-# docker build
+## docker build
 docker build -t kanbantabs:latest . --build-arg BIN_FILE=./kanbantabs
 
-# image size
-* 777.72 KB (!)
-
-# docker hub
+## docker hub
 * https://hub.docker.com/r/wlanboy/kanbantabs
 
-# usage with docker
+## usage with docker
 - alias kanban="docker run -it --rm -v /yourlocalstorage:/home/kanban wlanboy/kanbantabs"
 - kanban
 - kanban lane add
@@ -48,7 +47,7 @@ docker build -t kanbantabs:latest . --build-arg BIN_FILE=./kanbantabs
 - kanban card add
 - kanban card move 1
 
-# usage with binary
+## usage with binary
 * ./kanbantabs (show kanban board)
 * ./kanbantabs lane add (add new lane, you will be asked for it's name)
 * ./kanbantabs lane delete 1 (delete first lane)
