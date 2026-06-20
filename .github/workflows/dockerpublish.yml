@@ -4,6 +4,10 @@ on:
     tags: 
       - '*'
   workflow_dispatch:
+
+permissions:
+  contents: read
+
 jobs:
 
   build:
@@ -31,12 +35,11 @@ jobs:
     - name: Build
       run: CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -v .
 
-    - name: Publish to Registry
-      env:
-        DOCKER_USER: ${{secrets.DOCKER_USERNAME}}
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v4
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build the Docker image
       run: docker build -t wlanboy/kanbantabs:latest . --build-arg BIN_FILE=./kanbantabs
     - name: Docker Push
