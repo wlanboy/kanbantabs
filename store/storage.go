@@ -3,7 +3,6 @@ package store
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 
 	model "github.com/wlanboy/kanbantabs/v2/model"
@@ -19,24 +18,24 @@ type Storage struct {
 func (storage *Storage) Load() {
 	var workplace model.Workplace = model.Workplace{}
 
-	info, err := os.Stat(storage.Filename)
+	file, err := os.ReadFile(storage.Filename)
 	if err != nil {
-		fmt.Println(err)
-	}
-	if info != nil {
-		file, _ := ioutil.ReadFile(storage.Filename)
-		json.Unmarshal(file, &workplace)
-		storage.Workplace = &workplace
-	} else {
+		if !os.IsNotExist(err) {
+			fmt.Println(err)
+		}
 		workplace.Name = "Kanban"
 		workplace.NextID = 1
 		storage.Workplace = &workplace
 		storage.Save()
+		return
 	}
+
+	json.Unmarshal(file, &workplace)
+	storage.Workplace = &workplace
 }
 
 /*Save Workplace*/
 func (storage *Storage) Save() {
 	file, _ := json.MarshalIndent(storage.Workplace, "", " ")
-	_ = ioutil.WriteFile(storage.Filename, file, 0640)
+	_ = os.WriteFile(storage.Filename, file, 0640)
 }
