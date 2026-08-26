@@ -1,4 +1,4 @@
-FROM busybox:1.37
+FROM busybox:1.38
 # https://hub.docker.com/_/busybox/
 
 ARG BIN_FILE
