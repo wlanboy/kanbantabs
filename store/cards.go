@@ -13,7 +13,7 @@ func (storage *Storage) AddCard(board string, card model.BoardItem) {
 	if err == nil {
 		board := int(number)
 
-		if len(storage.Workplace.Lanes) >= board {
+		if board >= 1 && board <= len(storage.Workplace.Lanes) {
 			storage.Workplace.Lanes[board-1].Items = append(storage.Workplace.Lanes[board-1].Items, card)
 			storage.Save()
 		}
