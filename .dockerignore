@@ -7,3 +7,5 @@
 !commands/
 !model/
 !store/
+# Tests gehören nicht ins Image
+**/*_test.go

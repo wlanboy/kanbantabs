@@ -1,57 +1,73 @@
-![Go](https://github.com/wlanboy/kanbantabs/workflows/Go/badge.svg?branch=master) ![Docker build and publish image](https://github.com/wlanboy/kanbantabs/workflows/Docker%20build%20and%20publish%20image/badge.svg)
+![Go](https://github.com/wlanboy/kanbantabs/workflows/Go/badge.svg?branch=main) ![Docker build and publish image](https://github.com/wlanboy/kanbantabs/workflows/Docker%20build%20and%20publish%20image/badge.svg)
 
 # kanbantabs
-golang based console kanban board with local storage
+Kanban board for the console, written in Go. kanbantabs keeps the board in a local JSON file.
 
-Exmaple:
+Example:
 ```bash
- ./kanbantabs 
+ ./kanbantabs
 ------------------------------------------------------------------------------
-dev                      |test                     |prod                     |
+1: dev                   |2: test                  |3: prod                  |
 ------------------------------------------------------------------------------
-[1] kanbantabs           |[3] ranger               |[4] azure                |
-[2] hazelcast            |                         |[6] gc                   |
+[1] kanbantabs           |[3!] ranger              |[4] azure                |
+[2] hazelcast            |                         |[6*] gc tuning           |
 [5] chromebook           |                         |                         |
 ```
 
-## build
-* go get -v
-* go clean
-* go build
+Lanes are numbered from left to right. Each card shows its id in brackets, followed by `*` for medium or `!` for high severity.
 
-## run
-* go run main.go
+## Usage
+```bash
+kanbantabs                               # show the board
+kanbantabs lane add [name]               # add a lane at the end
+kanbantabs lane rename <lane> [name]     # rename a lane
+kanbantabs lane delete <lane>            # delete a lane and its cards (asks if the lane has cards)
+kanbantabs card add [lane [name]]        # add a card, lane 1 if no lane is given
+kanbantabs card move <id> [lane]         # move a card to the next lane or to the given lane
+kanbantabs card rename <id> [name]       # rename a card
+kanbantabs card severity <id> <level>    # low, medium or high
+kanbantabs card delete <id>              # delete a card
+kanbantabs help                          # show the help
+```
 
-## install
-* go install
+If you leave out the name, kanbantabs asks for it. Names need at least 3 characters, and kanbantabs cuts longer names to 20. A name can have several words: `kanbantabs card add 2 Release vorbereiten`.
 
-## go lang build for docker
-* CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -v .
+A card in the last lane stays there on `card move`. Use `card delete` to remove it.
 
-## go lang build for other archs
-* GOOS=linux GOARCH=386 go build (386 needed for busybox)
-* GOOS=linux GOARCH=arm GOARM=6 go build (Raspberry Pi build)
-* GOOS=linux GOARCH=arm64 go build (Odroid C2 build)
+On errors kanbantabs prints a message to stderr and exits with code 1.
 
-## docker build
+## Storage
+kanbantabs stores the board in `~/.kanbantabs`. The environment variable `KANBANTABS_FILE` sets a different file, either directly or through a `.env` file in the current directory.
+
+kanbantabs writes a temp file first and renames it over the old one, so an interrupted save cannot leave a half-written board. If the file cannot be parsed, kanbantabs stops with an error and leaves the file as it is.
+
+## Build and test
+```bash
+go build
+go test ./...
+go install
+```
+
+Builds for other platforms:
+```bash
+GOOS=linux GOARCH=arm GOARM=6 go build   # Raspberry Pi
+GOOS=linux GOARCH=arm64 go build         # Odroid C2, Raspberry Pi 4/5
+```
+
+## Docker
+```bash
 docker build -t kanbantabs:latest .
+```
 
-## docker hub
-* https://hub.docker.com/r/wlanboy/kanbantabs
+Image on Docker Hub: https://hub.docker.com/r/wlanboy/kanbantabs
 
-## usage with docker
-- alias kanban="docker run -it --rm -v /yourlocalstorage:/home/kanban wlanboy/kanbantabs"
-- kanban
-- kanban lane add
-- kanban lane add
-- kanban card add
-- kanban card move 1
+```bash
+alias kanban="docker run -it --rm -v /yourlocalstorage:/home/kanban wlanboy/kanbantabs"
+kanban
+kanban lane add dev
+kanban lane add done
+kanban card add 1 "first card"
+kanban card move 1
+```
 
-## usage with binary
-* ./kanbantabs (show kanban board)
-* ./kanbantabs lane add (add new lane, you will be asked for it's name)
-* ./kanbantabs lane delete 1 (delete first lane)
-* ./kanbantabs card add (add a new card to the first lane, you will be asked for it's name)
-* ./kanbantabs card add 2 (add a new card to the second lane, you will be asked for it's name)
-* ./kanbantabs card move 8 (move card with number 8 to the next lane - will disappear after last lane) 
-* ./kanbantabs card delete 8 (delete card with number 8) 
+The host directory must be writable for UID 10001, the user the container runs as.
