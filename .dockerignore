@@ -1,7 +1,9 @@
-.git
-.gitignore
-.github
-*.md
-*.log
-.idea/
-.DS_Store
+# Whitelist: nur Go-Quellen in den Build-Kontext, nichts anderes (.env, .git, Daten, IDE-Dateien)
+*
+!go.mod
+!go.sum
+!*.go
+!application/
+!commands/
+!model/
+!store/

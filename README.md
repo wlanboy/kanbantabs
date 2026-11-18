@@ -34,7 +34,7 @@ dev                      |test                     |prod                     |
 * GOOS=linux GOARCH=arm64 go build (Odroid C2 build)
 
 ## docker build
-docker build -t kanbantabs:latest . --build-arg BIN_FILE=./kanbantabs
+docker build -t kanbantabs:latest .
 
 ## docker hub
 * https://hub.docker.com/r/wlanboy/kanbantabs
