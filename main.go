@@ -8,6 +8,12 @@ import (
 
 func main() {
 	kanban := app.Kanban{}
-	kanban.Initialize()
-	kanban.RunCommands(os.Args)
+	if err := kanban.Initialize(); err != nil {
+		app.PrintError(err)
+		os.Exit(1)
+	}
+	if err := kanban.Run(os.Args[1:]); err != nil {
+		app.PrintError(err)
+		os.Exit(1)
+	}
 }

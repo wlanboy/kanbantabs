@@ -1,51 +1,42 @@
 package store
 
 import (
-	"strconv"
+	"errors"
+	"slices"
 )
 
-/*MoveCard from board to next board of Workplace*/
-func (storage *Storage) MoveCard(cardnumber string) {
-	number, err := strconv.ParseInt(cardnumber, 10, 32)
-	if err == nil {
-		number := int32(number)
-		found := false
-		foundBoard := 0
-		foundCard := 0
-		lastboard := len(storage.Workplace.Lanes) - 1
+/*ErrLastLane is returned when a card in the last lane should move to the next lane*/
+var ErrLastLane = errors.New("card is already in the last lane")
 
-		for _, board := range storage.Workplace.Lanes {
-
-			counter := 0
-			cards := board.Items
-
-			for _, card := range cards {
-				if number == card.ID {
-					found = true
-					foundCard = counter
-					break
-				}
-				counter++
-			}
-
-			if found {
-				cardToMove := cards[foundCard]
-
-				cards[foundCard] = cards[len(cards)-1]
-				cards = cards[:len(cards)-1]
-
-				storage.Workplace.Lanes[foundBoard].Items = cards
-
-				if foundBoard < lastboard {
-					newBoard := foundBoard + 1
-					storage.Workplace.Lanes[newBoard].Items = append(storage.Workplace.Lanes[newBoard].Items, cardToMove)
-				}
-
-				storage.Save()
-
-				break
-			}
-			foundBoard++
-		} //for _, board := range lanes
+/*MoveCard moves a card to the next lane. Cards in the last lane stay where they are.*/
+func (storage *Storage) MoveCard(id int32) error {
+	laneIndex, _, err := storage.findCard(id)
+	if err != nil {
+		return err
 	}
+	if laneIndex == len(storage.Workplace.Lanes)-1 {
+		return ErrLastLane
+	}
+	return storage.MoveCardTo(id, laneIndex+2)
+}
+
+/*MoveCardTo moves a card to the end of the lane with the given 1-based number*/
+func (storage *Storage) MoveCardTo(id int32, laneNumber int) error {
+	target, err := storage.Lane(laneNumber)
+	if err != nil {
+		return err
+	}
+	laneIndex, cardIndex, err := storage.findCard(id)
+	if err != nil {
+		return err
+	}
+	if laneIndex == laneNumber-1 {
+		return nil
+	}
+
+	source := &storage.Workplace.Lanes[laneIndex]
+	card := source.Items[cardIndex]
+	source.Items = slices.Delete(source.Items, cardIndex, cardIndex+1)
+	target.Items = append(target.Items, card)
+	return storage.Save()
 }

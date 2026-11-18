@@ -2,7 +2,7 @@ package commands
 
 import (
 	"fmt"
-	"os"
+	"io"
 	"strings"
 	"text/tabwriter"
 
@@ -10,71 +10,42 @@ import (
 	store "github.com/wlanboy/kanbantabs/v2/store"
 )
 
-/*Show for Kanban*/
-func Show(storage *store.Storage) {
-	const padding = 0
-	const length = 25
-	tabwriter := tabwriter.NewWriter(os.Stdout, length, length, padding, ' ', tabwriter.TabIndent|tabwriter.Debug)
+const columnWidth = 25
 
+/*Show prints all lanes side by side, one card per row*/
+func Show(storage *store.Storage, out io.Writer) {
 	lanes := storage.Workplace.Lanes
-	numberOfLanes := len(lanes)
-	currentLine := 1
-	moreCards := true
-	currentLineString := ""
-	header := ""
-
-	lineseparator := strings.Repeat("-", numberOfLanes*(length+1))
-	currentLines := []string{}
-
-	for moreCards == true {
-		addedCards := 0
-		currentLineString = ""
-
-		for _, board := range lanes {
-			if currentLine == 1 {
-				header = header + writeHeader(&board)
-			}
-
-			if len(board.Items) >= currentLine {
-				item := board.Items[currentLine-1]
-				currentLineString = currentLineString + writeLane(&item)
-				addedCards++
-			} else {
-				currentLineString = writeEmpty(currentLineString)
-			}
-
-		}
-
-		if addedCards == 0 {
-			moreCards = false
-		} else {
-			currentLines = append(currentLines, currentLineString)
-			currentLine++
-		}
+	if len(lanes) == 0 {
+		fmt.Fprintln(out, "No lanes yet. Add one with: kanbantabs lane add <name>")
+		return
 	}
 
-	if len(header) > 1 {
-		fmt.Fprintln(tabwriter, lineseparator)
-		fmt.Fprintln(tabwriter, header)
-		fmt.Fprintln(tabwriter, lineseparator)
-
-		for _, line := range currentLines {
-			fmt.Fprintln(tabwriter, line)
-		}
-		tabwriter.Flush()
-	} else {
-		fmt.Println("Empty boards")
+	rows := 0
+	var header strings.Builder
+	for number, lane := range lanes {
+		fmt.Fprintf(&header, "%d: %s\t", number+1, lane.Name)
+		rows = max(rows, len(lane.Items))
 	}
+
+	writer := tabwriter.NewWriter(out, columnWidth, columnWidth, 0, ' ', tabwriter.Debug)
+	separator := strings.Repeat("-", len(lanes)*(columnWidth+1))
+
+	fmt.Fprintln(writer, separator)
+	fmt.Fprintln(writer, header.String())
+	fmt.Fprintln(writer, separator)
+	for row := range rows {
+		var line strings.Builder
+		for _, lane := range lanes {
+			if row < len(lane.Items) {
+				line.WriteString(formatCard(lane.Items[row]))
+			}
+			line.WriteString("\t")
+		}
+		fmt.Fprintln(writer, line.String())
+	}
+	writer.Flush()
 }
 
-func writeEmpty(line string) string {
-	return fmt.Sprintf("%s\t", line)
-}
-
-func writeHeader(board *model.Board) string {
-	return fmt.Sprintf("%s\t", board.Name)
-}
-
-func writeLane(item *model.BoardItem) string {
-	return fmt.Sprintf("[%d] %s\t", item.ID, item.Name)
+func formatCard(card model.BoardItem) string {
+	return fmt.Sprintf("[%d%s] %s", card.ID, card.Severity.Marker(), card.Name)
 }
